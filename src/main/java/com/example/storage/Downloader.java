@@ -33,8 +33,6 @@ public class Downloader {
 				.getBlobContainerAsyncClient(containerName)
 				.getBlobAsyncClient(blobName);
 
-		final AtomicLong blobSize = new AtomicLong();
-
 		blobAsyncClient
 				.getProperties()
 				.map(bp -> {
@@ -46,9 +44,7 @@ public class Downloader {
 					LOGGER.info("File downloaded");
 					System.out.println("-----File downloaded-----");
 					System.out.println("---Download reported blob size: " + bp.getBlobSize());
-					File file = new File(blobName);
-					blobSize.set(bp.getBlobSize());
-					System.out.println("---File size:" + file.length());
+					System.out.println("---File size:" + new File(blobName).length());
 				})
 				.doOnError(Throwable::printStackTrace)
 				.block();
